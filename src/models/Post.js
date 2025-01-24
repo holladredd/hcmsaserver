@@ -2,14 +2,26 @@ const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema(
   {
-    userId: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
+    },
+    title: {
+      type: String,
       required: true,
     },
     content: {
       type: String,
       required: true,
+    },
+    image: {
+      type: String,
+    },
+    category: {
+      type: String,
+      enum: ["news", "announcement", "health-tip", "general"],
+      default: "general",
     },
     likes: [
       {
@@ -19,11 +31,11 @@ const postSchema = new mongoose.Schema(
     ],
     comments: [
       {
-        userId: {
+        user: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
         },
-        content: String,
+        text: String,
         createdAt: {
           type: Date,
           default: Date.now,
@@ -31,9 +43,7 @@ const postSchema = new mongoose.Schema(
       },
     ],
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Post", postSchema);
