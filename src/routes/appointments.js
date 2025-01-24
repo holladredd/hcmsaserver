@@ -1,12 +1,26 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
+const appointmentController = require("../controllers/appointmentController");
+const { authenticateToken } = require("../middleware/auth");
 
-router.get("/", (req, res) => {
-  res.json({ message: "Appointments endpoint active" });
+// Use proper callback functions for each route
+router.get("/", authenticateToken, (req, res) => {
+  appointmentController.getAppointments(req, res);
 });
 
-router.post("/", (req, res) => {
-  res.json({ message: "Create appointment endpoint" });
+router.post("/", authenticateToken, (req, res) => {
+  appointmentController.createAppointment(req, res);
+});
+
+router.get("/:id", authenticateToken, (req, res) => {
+  appointmentController.getAppointmentById(req, res);
+});
+
+router.put("/:id", authenticateToken, (req, res) => {
+  appointmentController.updateAppointment(req, res);
+});
+
+router.delete("/:id", authenticateToken, (req, res) => {
+  appointmentController.deleteAppointment(req, res);
 });
 
 module.exports = router;
