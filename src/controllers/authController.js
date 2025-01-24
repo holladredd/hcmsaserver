@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -8,24 +8,22 @@ const {
 const authController = {
   signup: async (req, res) => {
     try {
+      console.log("bcryp listing", bcrypt);
       const { username, email, password, role } = req.body;
 
-      const existingUser = await User.findOne({ email });
+      const existingUser = await User.findOne({ email, username });
       if (existingUser) {
         return res.status(400).json({ message: "User already exists" });
       }
 
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-      const user = new User({
+      const user = await User.create({
         username,
         email,
         password: hashedPassword,
         role: role || "patient",
       });
-
-      await user.save();
 
       const accessToken = generateAccessToken(user._id);
       const refreshToken = generateRefreshToken(user._id);
@@ -36,6 +34,7 @@ const authController = {
           id: user._id,
           username: user.username,
           email: user.email,
+          password: user.password,
           role: user.role,
         },
         accessToken,
@@ -44,7 +43,7 @@ const authController = {
     } catch (error) {
       res
         .status(500)
-        .json({ message: "Error creating user", error: error.message });
+        .json({ message: "Error creating this user", error: error.message });
     }
   },
 
