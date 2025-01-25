@@ -1,5 +1,5 @@
 const User = require("../models/User");
-// const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -36,7 +36,7 @@ const authController = {
           id: user._id,
           username: user.username,
           email: user.email,
-          password: user.password,
+          // password: user.password,
           role: user.role,
         },
         accessToken,
