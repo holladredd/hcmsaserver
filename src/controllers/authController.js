@@ -43,9 +43,11 @@ const authController = {
         refreshToken,
       });
     } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Error creating this user", error: error.message });
+      res.status(500).json({
+        message: "Error creating this user",
+        error: error.message,
+        validationErrors: error.errors || null,
+      });
     }
   },
 
