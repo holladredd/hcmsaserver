@@ -3,6 +3,11 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     username: {
       type: String,
       required: true,
@@ -19,6 +24,34 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    dateofbirth: {
+      type: Date,
+      required: true,
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female", "other"],
+      required: true,
+    },
+    bloodType: {
+      type: String,
+      required: true,
+      enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+    },
+    emergencyContact: {
+      name: {
+        type: String,
+        required: true,
+      },
+      phoneNumber: {
+        type: String,
+        required: true,
+      },
+      relationship: {
+        type: String,
+        required: true,
+      },
+    },
     role: {
       type: String,
       enum: ["patient", "doctor", "admin"],
@@ -34,6 +67,7 @@ const userSchema = new mongoose.Schema(
     },
     address: {
       type: String,
+      required: true,
     },
     specialization: {
       type: String,

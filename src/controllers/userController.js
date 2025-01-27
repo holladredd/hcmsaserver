@@ -1,5 +1,4 @@
 const User = require("../models/User");
-
 const userController = {
   getAllUsers: async (req, res) => {
     try {
@@ -35,15 +34,36 @@ const userController = {
   },
 
   updateUser: async (req, res) => {
+    const userId = req.params.id;
+    const updates = req.body;
+
     try {
       const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        { $set: req.body },
+        userId,
+        {
+          $set: {
+            name: updates.name,
+            email: updates.email,
+            phone: updates.phone,
+            address: updates.address,
+            dateOfBirth: updates.dateOfBirth,
+            gender: updates.gender,
+            bloodType: updates.bloodType,
+            emergencyContact: updates.emergencyContact,
+          },
+        },
         { new: true }
-      ).select("-password");
-      res.json(updatedUser);
+      );
+
+      return res.status(200).json({
+        success: true,
+        data: updatedUser,
+      });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      return res.status(400).json({
+        success: false,
+        error: "Failed to update user details",
+      });
     }
   },
 
