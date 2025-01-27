@@ -39,31 +39,14 @@ const userController = {
 
     try {
       const updatedUser = await User.findByIdAndUpdate(
-        userId,
-        {
-          $set: {
-            name: updates.name,
-            email: updates.email,
-            phone: updates.phone,
-            address: updates.address,
-            dateOfBirth: updates.dateOfBirth,
-            gender: updates.gender,
-            bloodType: updates.bloodType,
-            emergencyContact: updates.emergencyContact,
-          },
-        },
+        req.params.id,
+        req.body,
         { new: true }
       );
 
-      return res.status(200).json({
-        success: true,
-        data: updatedUser,
-      });
+      res.status(200).json(updatedUser);
     } catch (error) {
-      return res.status(400).json({
-        success: false,
-        error: "Failed to update user details",
-      });
+      res.status(400).json({ message: error.message });
     }
   },
 

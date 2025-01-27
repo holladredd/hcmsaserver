@@ -1,8 +1,7 @@
 const express = require("express");
-const { updateUserDetails } = require("../controllers/userController");
-
 const router = express.Router();
+const { updateUser } = require("../controllers/userController");
 
-router.put("/users/:id", updateUserDetails);
+router.patch("/:id", updateUser);
 
 module.exports = router;

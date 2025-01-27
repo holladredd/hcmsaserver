@@ -8,6 +8,6 @@ router.get("/", (req, res) => {
 
 // User details update route
 // router.put("/:id", updateUserDetails);
-// router.put("/users/:id", updateUserDetails);
+router.put("/users/:id", updateUserDetails);
 
 module.exports = router;
